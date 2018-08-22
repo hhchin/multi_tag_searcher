@@ -1,0 +1,12 @@
+[
+{
+	"id": "tools",
+	"children":
+	[
+	{
+		"caption":"Multi Token Find",
+		"command":"prompt_multi_search"
+	}
+	]	
+}
+]

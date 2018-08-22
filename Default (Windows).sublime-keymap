@@ -1,0 +1,17 @@
+[
+  { 
+    "keys": ["ctrl+up"], 
+    "command": "multi_search", 
+    "args":{"mode": 1}
+  }, 
+  { 
+    "keys": ["ctrl+down"], 
+    "command": "multi_search", 
+    "args":{"mode": -1}
+  },
+  { 
+    "keys": ["ctrl+d"], 
+    "command": "multi_search",
+    "args":{"mode": 0}
+  }
+]

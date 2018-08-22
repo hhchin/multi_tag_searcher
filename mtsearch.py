@@ -1,5 +1,5 @@
-from patricia import trie
-from union_find import disjoint_sets
+from .patricia import trie
+from .union_find import disjoint_sets
 from collections import defaultdict
 import bisect
 
@@ -21,22 +21,29 @@ class MultiTokenSearcher(object):
     s = 0
     arr = []
     line = line.rstrip()
+
     for t in range(len(line)):
       if line[t]==' ':
         arr.append([line[s:t],s])
         s=t+1 
-    arr.append([line[s:t+1],s])
+    t=len(line) 
+    arr.append([line[s:t],s])
     return arr
 
   #average english word length is 5 characters
-  def search(self, token_group, col_win=20, row_win=3, row_penalty=5):
+  def search(self, token_group, col_win=20, row_win=2, row_penalty=5):
     temp_match_table = defaultdict(list)
+    all_valid_token_pos = []
+
     for token in token_group:
       if not self.trie.isPrefix(token):
         continue
       for valid in self.trie.iter(token):
+        L = len(token)
         for pos in self.trie[valid]:
           temp_match_table[pos[0]].append(pos[1])
+          all_valid_token_pos.append([pos[0], pos[1], pos[0], pos[1]+L])
+          
 
     # sort the match positions
     row_keys = sorted(temp_match_table.keys())
@@ -52,7 +59,8 @@ class MultiTokenSearcher(object):
     for cur_row_ind, cur_row in enumerate(row_keys):
       for cur_col_ind, cur_col in enumerate(match_table[cur_row]): #first row is the same row
         for can_col in match_table[cur_row][cur_col_ind+1:]:
-          print(can_col, cur_col)
+
+          print("can",can_col, cur_col)
           if (can_col-cur_col) <= col_win:
             match_edges.append( ((cur_row,cur_col),(cur_row, can_col)) )
           else: #cur col is too far away
@@ -76,7 +84,7 @@ class MultiTokenSearcher(object):
       top_row, top_col, btm_row, btm_col = min(row), min(col), max(row), max(col)
       result.append([len(cluster), (top_row, top_col, btm_row, btm_col)])
     
-    return result
+    return result, all_valid_token_pos
 
 
   def print_result(self, text, result):
