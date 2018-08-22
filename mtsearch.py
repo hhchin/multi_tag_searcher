@@ -3,7 +3,7 @@ from union_find import disjoint_sets
 from collections import defaultdict
 import bisect
 
-class GroupSearcher(object):
+class MultiTokenSearcher(object):
 
   def __init__(self, string_arr):
     #use a trie to map words to (row, col) pairs
@@ -22,7 +22,6 @@ class GroupSearcher(object):
     arr = []
     line = line.rstrip()
     for t in range(len(line)):
-      #print(t)
       if line[t]==' ':
         arr.append([line[s:t],s])
         s=t+1 
@@ -95,11 +94,6 @@ class GroupSearcher(object):
     result = self.search(token_group)
     self.print_result(text, result)
 
-def main():
-  with open('1.txt') as fd:
-    lines = fd.readlines()
-  gs = GroupSearcher(lines)
-  gs.search_and_print(lines, ['parade', 'Squadron'])
 
 
 if __name__ == '__main__':
